@@ -127,7 +127,7 @@ namespace PatioFIX.Common.FixSupport
         /// <param name="validateCheckSum"></param>
         /// <param name="validateBodyLength"></param>
         /// <param name="logger"></param>
-        public FIXMessage(int maxLength = 2048, int maxFields = 128, bool validateCheckSum = true, bool validateBodyLength = true, Logger logger = null)
+        public FIXMessage(int maxLength = 4096, int maxFields = 1024, bool validateCheckSum = true, bool validateBodyLength = true, Logger logger = null)
         {
             m_rawBytes = new byte[maxLength];
             m_fields = new FIXField[maxFields];

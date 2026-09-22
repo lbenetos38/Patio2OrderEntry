@@ -552,14 +552,15 @@ namespace PatioFIX.Common.FixSupport.Transport
             if (buffer[2] != 0x46) return false;//F
             if (buffer[3] != 0x49) return false;//I
             if (buffer[4] != 0x58) return false;//X
-            if (buffer[5] != 0x2e) return false;//.
-            if (buffer[6] != 0x34) return false;//4
-            if (buffer[7] != 0x2e) return false;//.
-            //if (buffer[8] != 0x34) return false;//4
-            if (buffer[9] != SOH) return false;//SOH
-            if (buffer[10] != 0x39) return false;//9
-            if (buffer[11] != 0x3d) return false;//=
+            if (buffer[5] != 0x54) return false;//T
+            if (buffer[6] != 0x2e) return false;//.
+            if (buffer[7] != 0x31) return false;//1
+            if (buffer[8] != 0x2e) return false;//.
+            if (buffer[9] != 0x31) return false;//1
 
+            if (buffer[10] != SOH) return false;//SOH
+            if (buffer[11] != 0x39) return false;//9
+       
             return true;
         }
         /*

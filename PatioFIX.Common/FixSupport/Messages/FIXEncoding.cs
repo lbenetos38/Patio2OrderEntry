@@ -786,14 +786,20 @@ namespace PatioFIX.Common.FixSupport
 
             buffer[position + 17] = (byte)'.';
 
-            var millis = value.Millisecond;
-            buffer[position + 18] = (byte)('0' + millis / 100);
-            millis %= 100;
-            buffer[position + 19] = (byte)('0' + millis / 10);
-            millis %= 10;
-            buffer[position + 20] = (byte)('0' + millis);
+            // Fractional ticks within the second
+            long ticksInSecond = value.Ticks % TimeSpan.TicksPerSecond;
 
-            return 21;
+            // Convert ticks to nanoseconds (1 tick = 100ns)
+            long nanos = ticksInSecond * 100;
+
+            // Write 9 digits
+            for (int i = 26; i >= 18; i--)
+            {
+                buffer[position + i] = (byte)('0' + (nanos % 10));
+                nanos /= 10;
+            }
+
+            return 27;
         }
     }
 }
