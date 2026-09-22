@@ -30,7 +30,7 @@ namespace PatioFIX.Common
                 Name = "logfile",
                 FileNameKind = FilePathKind.Absolute,
                 //FileName = Path.Combine(outputPath, $"{serviceName}.${{cached:cached=true:Inner=${{date:format=yyyy-MM-dd:CacheKey=${{shortdate}}.log"),
-                FileName = Path.Combine(outputPath, $"{serviceName}-test.log"),
+                FileName = Path.Combine(outputPath, $"{serviceName}.log"),
                 //Layout = "${longdate} ${uppercase:${level:padding=-6:fixedLength=true}} ${logger:padding=-14} ${message} ${exception:format=tostring}",
                 Layout = "${time} ${uppercase:${level:padding=-6:fixedLength=true}} ${logger:padding=-15} ${message} ${exception:format=tostring}",
                 CreateDirs = true,

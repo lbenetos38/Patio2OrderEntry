@@ -63,7 +63,7 @@ namespace PatioFIX.Common
         /// <summary>
         /// 
         /// </summary>
-		public static Guid AppID { get; set; }
+		public static string AppID { get; set; }
         /// <summary>
         /// 
         /// </summary>
@@ -80,7 +80,7 @@ namespace PatioFIX.Common
             theLogger.Info($"----------------------------------DumpSettings START----------------------------------");
             theLogger.Info($"Globals::ServiceName = {Globals.ServiceName}");
             theLogger.Info($"Globals::ClientRole = {Globals.ClientRole}");
-            theLogger.Info($"Globals::AppID = {Globals.AppID.ToString("D")}");
+            theLogger.Info($"Globals::AppID = {Globals.AppID}");
             theLogger.Info($"Globals.DayOfYear = {Globals.DayOfYear}");
 
             Configuration.DumpSettings(theLogger);

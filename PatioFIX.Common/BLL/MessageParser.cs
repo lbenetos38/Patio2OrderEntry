@@ -125,7 +125,7 @@ namespace PatioFIX.Common
                     if (fixMessage.Contains(Tags.ExecInst))
                     {
                         var _execInst = fixMessage[Tags.ExecInst].AsChar;
-                        if(_execInst == /*Release from suspension*/'q')
+                        if (_execInst == /*Release from suspension*/'q')
                         {
                             //Unsuspended
                             return ODLMessageTypeEnum.Order_Edit_Confirmation;//TC
@@ -404,7 +404,14 @@ namespace PatioFIX.Common
                 return ODLMessageTypeEnum.Business_Message_Reject;
             }
 
-
+            else if (msgType[0] == 'U' && msgType[1] == '5' && msgType[2] == '0')
+            {
+                return ODLMessageTypeEnum.Ignored_Message; //U50 
+            }
+            else if (msgType[0] == 'U' && msgType[1] == '5' && msgType[2] == '1')
+            {
+                return ODLMessageTypeEnum.Ignored_Message; //U51 
+            }
 
             return ODLMessageTypeEnum.Unknown;
         }
