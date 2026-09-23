@@ -67,4 +67,7 @@
   <ItemGroup>
     <None Include="IgnoredMessages.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_FIXClients_GetStatus.sql" />
+  </ItemGroup>
 </Project>
