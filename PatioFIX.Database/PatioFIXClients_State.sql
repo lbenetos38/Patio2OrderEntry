@@ -32,7 +32,7 @@ BEGIN TRANSACTION
 		(
 		RawID int NOT NULL IDENTITY (1, 1),
 		DayOfYear smallint NOT NULL,
-		AppID varchar(50) NOT NULL,
+		AppID varchar(250) NOT NULL,
 		MesssageSource tinyint NOT NULL,
 		ATHEXSessionID varchar(50) NULL,
 		ETS_LastAppMsgId int NOT NULL,
@@ -67,7 +67,7 @@ BEGIN TRANSACTION
 	GO
 	IF EXISTS(SELECT * FROM dbo.PatioFIXClients_State)
 		 EXEC('INSERT INTO dbo.Tmp_PatioFIXClients_State (RawID, DayOfYear, AppID, MesssageSource, ATHEXSessionID, ETS_LastAppMsgId, ETS_LastMsgSeqNum, ORA_LastAppMsgId, ORA_LastMsgSeqNum, CreateDT, LastUpdateDT)
-			SELECT RawID, DayOfYear, CONVERT(varchar(50), AppID), MesssageSource, ATHEXSessionID, ETS_LastAppMsgId, ETS_LastMsgSeqNum, ORA_LastAppMsgId, ORA_LastMsgSeqNum, CreateDT, LastUpdateDT FROM dbo.PatioFIXClients_State WITH (HOLDLOCK TABLOCKX)')
+			SELECT RawID, DayOfYear, CONVERT(varchar(250), AppID), MesssageSource, ATHEXSessionID, ETS_LastAppMsgId, ETS_LastMsgSeqNum, ORA_LastAppMsgId, ORA_LastMsgSeqNum, CreateDT, LastUpdateDT FROM dbo.PatioFIXClients_State WITH (HOLDLOCK TABLOCKX)')
 	GO
 	SET IDENTITY_INSERT dbo.Tmp_PatioFIXClients_State OFF
 	GO

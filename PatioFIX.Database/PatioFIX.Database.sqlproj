@@ -59,8 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="PatioFIXClients_State.sql" />
+    <None Include="PatioODLClients_MsgIds.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fxodl_FIXClients_Housekeeping.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IgnoredMessages.sql" />
   </ItemGroup>
 </Project>
