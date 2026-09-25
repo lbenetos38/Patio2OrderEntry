@@ -70,4 +70,7 @@
   <ItemGroup>
     <None Include="fxodl_FIXClients_GetStatus.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_ignored_Create.sql" />
+  </ItemGroup>
 </Project>

@@ -21,7 +21,6 @@ ALTER PROCEDURE [dbo].[fxodl_FIXClients_Housekeeping]
 as
 set nocount on
 
-
 	/*we delete old rows (older than 3 days) from the PatioFIXClients_State table*/
 	if @DayOfYear = /*πρωτη ημερα του χρονου*/1
 		delete from [dbo].[PatioFIXClients_State] where [DayOfYear] not in (365, 366, 1) and AppID = @AppID
@@ -30,12 +29,10 @@ set nocount on
 	else
 		delete from [dbo].[PatioFIXClients_State] where [DayOfYear] not in (@DayOfYear - 2, @DayOfYear - 1, @DayOfYear) and AppID = @AppID
 
-
 	/*we make sure that we have a row inside PatioFIXClients_State for the @DayOfYear*/
-	if not exists(select * from [dbo].[PatioFIXClients_State] where DayOfYear = @DayOfYear and AppID = @AppID and MesssageSource = @odlMesssageSource) begin
-
+	if not exists(select * from [dbo].[PatioFIXClients_State] where DayOfYear = @DayOfYear and AppID = @AppID and MesssageSource = @odlMesssageSource) 
+	begin
 		insert into [dbo].[PatioFIXClients_State] (DayOfYear, AppID, MesssageSource) values (@DayOfYear, @AppID, @odlMesssageSource)
-	
 	end
 
 	/*also we delete old PatioFIXClients_MsgIds*/
