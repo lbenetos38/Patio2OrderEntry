@@ -113,6 +113,11 @@ namespace PatioFIX.Common.Configuration
         /// <summary>
         /// 
         /// </summary>
+        public EvaluatorsSection Evaluators { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="sectionName"></param>
         /// <param name="requiredDispatcher"></param>
         /// <param name="settingsFilePath"></param>
@@ -313,6 +318,15 @@ namespace PatioFIX.Common.Configuration
             catch (Exception ex)
             {
                 throw new Exception("An error occured while creating a StoredProceduresSection.", ex);
+            }
+
+            try
+            {
+                this.Evaluators = new EvaluatorsSection(root, required: false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occured while creating a EvaluatorsSection.", ex);
             }
         }
 

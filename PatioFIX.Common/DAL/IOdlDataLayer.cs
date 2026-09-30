@@ -8,9 +8,6 @@ namespace PatioFIX.Common.DAL
     /// </summary>
     internal interface IOdlDataLayer
     {
-
-
-
         void InsertIgnored(FIXInMessage message, IgnoredMessage ignoredMessage);
         void InsertConfirmCancel(FIXInMessage message, OrderEditConfirmationMessage confirmation);
         void InsertConfirmChange(FIXInMessage message, OrderChangeConfirmationMessage confirmation, string strOrderNotes);
@@ -18,29 +15,21 @@ namespace PatioFIX.Common.DAL
         void InsertConfirmOrderEdit(FIXInMessage message, OrderEditConfirmationMessage confirmation);
         void InsertCreditLimitInformation(FIXInMessage message, CreditLimitInfoMessage creditLimitInfo);
         void InsertExchangeNotes(FIXInMessage message, ExchangeNotesMessage exchangeNotes);
-
         void InsertOrderMarketStatus(FIXInMessage message, MarketStatusMessage marketStatus);
-
         void InsertReject(FIXInMessage message, string memberOrderID, RejectMessage rejection, string sourceMsgType, string orderNote, PtOrderGenerator generator);
         void InsertReject(FIXInMessage message, OrderCancelRejectMessage rejection, string sourceMsgType, string orderNote, PtOrderGenerator generator);
-
-
         void InsertSecurityPrice(FIXInMessage message, SecurityPricesMessage securityPrice);
         void InsertSecurityStatus(FIXInMessage message, SecurityStatusMessage securityStatus);
         void InsertTrade(FIXInMessage message, NewTradeConfirmationMessage newTradeConfirmation);
         void InsertTradeCaptureReport(FIXInMessage message, TradeCaptureReportMessage tradeCaptureReport);
 
-
         void UpdateOrderProcessAndStatusCode(FIXInMessage message, int orderId, OrderProcessCodeEnum processCode, char ordStatus, string rejReasCode);
         void UpdateOrderProcessCode(FIXInMessage message, int orderId, OrderProcessCodeEnum processCode);
-
 
         PtCancel GetCancelById(int cancelID);
         PtChange GetChangeById(int changeID);
         PtOrder GetOrderById(int orderID);
         PtOrder GetOrderByExchangeId(string exchangeID);
-
-
 
         /// <summary>
         /// 
@@ -50,6 +39,7 @@ namespace PatioFIX.Common.DAL
         /// <param name="maxRows"></param>
         /// <returns></returns>
         int GetOutboundMessages(OutboundMessages vehicle, short venue_switch, int maxRows);
+        
         void SetOrderAsSent(decimal orderId, int processCode);
         void SetChangeAsSent(decimal orderId, int orderprocesscode, decimal chngID, int chngProcessCode);
         void SetCancelAsSent(decimal cancelID, int processCode);
@@ -64,7 +54,7 @@ namespace PatioFIX.Common.DAL
         bool UnSetCancelAsSent(decimal cancelID);
 
 
-        ClientStatus Clients_GetStatus(Guid appId, ODLMesssageSource source, int dayOfYear);
-        void Clients_Housekeeping(Guid appId, ODLMesssageSource source, int dayOfYear);
+        ClientStatus Clients_GetStatus(string appId, ODLMesssageSource source, int dayOfYear);
+        void Clients_Housekeeping(string appId, ODLMesssageSource source, int dayOfYear);
     }
 }

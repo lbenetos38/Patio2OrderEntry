@@ -9,7 +9,7 @@ namespace PatioFIX.Common
     /// <summary>
     /// Εδω έχουμε το configuration για τα applications μας
     /// </summary>
-    public static class Globals
+    public static class Global
     {
         public static bool IsGuiPresent;
         public static IMonitor GuiMonitorInstance;
@@ -37,12 +37,20 @@ namespace PatioFIX.Common
         public static bool RetryRetryableException => Configuration.RetryRetryableException;
 
         public static FixServerSection FixServer => Configuration.FixServer;
+        
         public static FixSessionSection FixSession => Configuration.FixSession;
+        
         public static FixClientSection FixClient => Configuration.FixClient;
+        
         public static PatioOMSSection PatioOMS => Configuration.PatioOMS;
+        
         public static EmulationSection Emulation => Configuration.Emulation;
 
         public static DispatcherSection Dispatcher => Configuration.Dispatcher;
+
+        public static StoredProceduresSection StoredProcedures => Configuration.StoredProcedures;
+
+        public static EvaluatorsSection Evaluators => Configuration.Evaluators;
 
         /// <summary>
         /// 
@@ -78,10 +86,10 @@ namespace PatioFIX.Common
         public static void DumpSettings(Logger theLogger)
         {
             theLogger.Info($"----------------------------------DumpSettings START----------------------------------");
-            theLogger.Info($"Globals::ServiceName = {Globals.ServiceName}");
-            theLogger.Info($"Globals::ClientRole = {Globals.ClientRole}");
-            theLogger.Info($"Globals::AppID = {Globals.AppID}");
-            theLogger.Info($"Globals.DayOfYear = {Globals.DayOfYear}");
+            theLogger.Info($"Globals::ServiceName = {Global.ServiceName}");
+            theLogger.Info($"Globals::ClientRole = {Global.ClientRole}");
+            theLogger.Info($"Globals::AppID = {Global.AppID}");
+            theLogger.Info($"Globals.DayOfYear = {Global.DayOfYear}");
 
             Configuration.DumpSettings(theLogger);
             Schedule.DumpSchedule(theLogger);

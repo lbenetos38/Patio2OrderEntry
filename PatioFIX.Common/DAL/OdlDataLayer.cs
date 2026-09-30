@@ -3,8 +3,6 @@ using System;
 using System.Data;
 using static PatioFIX.Common.ODLClientAPIUtilities;
 
-
-
 namespace PatioFIX.Common.DAL
 {
     /// <summary>
@@ -14,26 +12,25 @@ namespace PatioFIX.Common.DAL
     {
         readonly Logger theLogger = null;
 
-        public OdlDataLayer() : base(Globals.PatioOMS.ODLConnStr)
+        public OdlDataLayer() : base(Global.PatioOMS.ODLConnStr)
         {
             theLogger = new Logger("OdlDataLayer");
         }
-
 
         #region called by Evaluators
         public void InsertIgnored(FIXInMessage message, IgnoredMessage ignoredMessage)
         {
             if (ignoredMessage == null) throw new ArgumentNullException(nameof(ignoredMessage));
 
-            var command = CreateCommandForProc("dbo.fxodl_ignored_Create");
+            var command = CreateCommandForProc(Global.Evaluators.Ignored_Create); // "dbo.fxodl_ignored_Create"
             AddParameter(command, "@messageType", ignoredMessage.ODLMessageType, SqlDbType.Char, ParameterDirection.Input, 2);
 
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
             try
@@ -46,9 +43,10 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertConfirmCancel(FIXInMessage message, OrderEditConfirmationMessage confirmation)
         {
-            var command = CreateCommandForProc("dbo.fxodl_confirmcancel_Create");
+            var command = CreateCommandForProc(Global.Evaluators.ConfirmCancel_Create); // "dbo.fxodl_confirmcancel_Create"
             AddParameter(command, "@cfcMemberID", _trim(confirmation.MemberID), SqlDbType.Char);
             AddParameter(command, "@cfcTraderID", _trim(confirmation.TraderID), SqlDbType.Char);
             AddParameter(command, "@cfcBoardID", confirmation.BoardID, SqlDbType.Char);
@@ -81,9 +79,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -97,9 +95,10 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertConfirmChange(FIXInMessage message, OrderChangeConfirmationMessage confirmation, string strOrderNotes)
         {
-            var command = CreateCommandForProc("dbo.fxodl_confirmchange_Create");
+            var command = CreateCommandForProc(Global.Evaluators.ConfirmChange_Create); // "dbo.fxodl_confirmchange_Create"
             AddParameter(command, "@p03", confirmation.MemberID, SqlDbType.Char);//cfhMemberID
             AddParameter(command, "@p04", confirmation.TraderID, SqlDbType.Char);
             AddParameter(command, "@p06", confirmation.BoardID, SqlDbType.Char);
@@ -151,9 +150,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -167,11 +166,12 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertConfirmOrder(FIXInMessage message, OrderEntryConfirmationMessage confirmOrder, string orderNotes)
         {
             if (confirmOrder == null) throw new ArgumentNullException(nameof(confirmOrder));
 
-            var command = CreateCommandForProc("dbo.fxodl_confirmorder_Create");
+            var command = CreateCommandForProc(Global.Evaluators.ConfirmOrder_Create); // "dbo.fxodl_confirmorder_Create"
             AddParameter(command, "@MemberID", _trim(confirmOrder.MemberID), SqlDbType.Char);
             AddParameter(command, "@TraderID", _trim(confirmOrder.TraderID), SqlDbType.Char);
             AddParameter(command, "@OrderType", confirmOrder.OrderType, SqlDbType.Char);
@@ -231,9 +231,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -248,9 +248,10 @@ namespace PatioFIX.Common.DAL
             }
 
         }
+        
         public void InsertConfirmOrderEdit(FIXInMessage message, OrderEditConfirmationMessage confirmation)
         {
-            var command = CreateCommandForProc("dbo.fxodl_confirmorderedit_Create");
+            var command = CreateCommandForProc(Global.Evaluators.ConfirmOrderEdit_Create); // "dbo.fxodl_confirmorderedit_Create"
             AddParameter(command, "@cfcMemberID", _trim(confirmation.MemberID), SqlDbType.Char);
             AddParameter(command, "@cfcTraderID", _trim(confirmation.TraderID), SqlDbType.Char);
             AddParameter(command, "@cfcBoardID", confirmation.BoardID, SqlDbType.Char);
@@ -283,9 +284,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -299,11 +300,12 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertCreditLimitInformation(FIXInMessage message, CreditLimitInfoMessage creditLimitInfo)
         {
             if (creditLimitInfo == null) throw new ArgumentNullException(nameof(creditLimitInfo));
 
-            var command = CreateCommandForProc("dbo.fxodl_creditlimitinformation_Create");
+            var command = CreateCommandForProc(Global.Evaluators.CreditLimitInformation_Create); // "dbo.fxodl_creditlimitinformation_Create"
             AddParameter(command, "@memberId", creditLimitInfo.MemberID, SqlDbType.Char, ParameterDirection.Input, 4);
             AddDecimalParameter(command, "@creditLimit", creditLimitInfo.CreditLimit, ParameterDirection.Input, 14, 2);
             AddParameter(command, "@clearingSpace", _trim(creditLimitInfo.ClearingSpace), SqlDbType.Char, ParameterDirection.Input, 4);
@@ -311,9 +313,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -327,11 +329,12 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertExchangeNotes(FIXInMessage message, ExchangeNotesMessage exchangeNotes)
         {
             if (exchangeNotes == null) throw new ArgumentNullException(nameof(exchangeNotes));
 
-            var command = CreateCommandForProc("dbo.fxodl_exchangenotes_Create");
+            var command = CreateCommandForProc(Global.Evaluators.ExchangeNotes_Create); // "dbo.fxodl_exchangenotes_Create"
 
             AddParameter(command, "@memberID", exchangeNotes.MemberID, SqlDbType.Char, ParameterDirection.Input, 4);
             AddParameter(command, "@traderID", exchangeNotes.TraderID, SqlDbType.Char, ParameterDirection.Input, 5);
@@ -344,9 +347,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -363,7 +366,7 @@ namespace PatioFIX.Common.DAL
 
         public void InsertOrderMarketStatus(FIXInMessage message, MarketStatusMessage marketStatus)
         {
-            var command = CreateCommandForProc("dbo.fxodl_ordermarketstatus_Create");
+            var command = CreateCommandForProc("dbo.fxodl_ordermarketstatus_Create"); // "dbo.fxodl_ordermarketstatus_Create"
             AddParameter(command, "@marStatMarketID", marketStatus.MarketID, SqlDbType.Char);
             AddParameter(command, "@marStatBoardID", marketStatus.BoardID, SqlDbType.Char);
             AddParameter(command, "@marStatStatus", marketStatus.TradingSessionID, SqlDbType.Char);
@@ -371,9 +374,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -390,7 +393,7 @@ namespace PatioFIX.Common.DAL
 
         public void InsertReject(FIXInMessage message, string memberOrderID, RejectMessage rejection, string sourceMsgType, string orderNote, PtOrderGenerator generator)
         {
-            var command = CreateCommandForProc("dbo.fxodl_reject_Create");
+            var command = CreateCommandForProc(Global.Evaluators.Reject_Create); // "dbo.fxodl_reject_Create"
             AddParameter(command, "@rejMemberID", rejection.MemberID, SqlDbType.Char);
             AddParameter(command, "@rejTraderID", rejection.TraderID, SqlDbType.Char);
             AddParameter(command, "@rejRejectReasonCode", rejection.RejectReasonCode, SqlDbType.Char);
@@ -415,9 +418,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -431,9 +434,10 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertReject(FIXInMessage message, OrderCancelRejectMessage rejection, string sourceMsgType, string orderNote, PtOrderGenerator generator)
         {
-            var command = CreateCommandForProc("dbo.fxodl_reject_Create");
+            var command = CreateCommandForProc(Global.Evaluators.Reject_Create); // "dbo.fxodl_reject_Create"
             AddParameter(command, "@rejMemberID", rejection.MemberID, SqlDbType.Char);
             AddParameter(command, "@rejTraderID", rejection.TraderID, SqlDbType.Char);
             AddParameter(command, "@rejRejectReasonCode", rejection.RejectReasonCode, SqlDbType.Char);
@@ -457,9 +461,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -474,12 +478,11 @@ namespace PatioFIX.Common.DAL
             }
         }
 
-
         public void InsertSecurityPrice(FIXInMessage message, SecurityPricesMessage securityPrice)
         {
             if (securityPrice == null) throw new ArgumentNullException(nameof(securityPrice));
 
-            var command = CreateCommandForProc("dbo.fxodl_securityprices_Create");
+            var command = CreateCommandForProc(Global.Evaluators.SecurityPrices_Create); // "dbo.fxodl_securityprices_Create"
             AddDecimalParameter(command, "@secPriceStartOfDayPrice", securityPrice.StartOfDayPrice, ParameterDirection.Input, 18, 6);
             AddDecimalParameter(command, "@secPriceFloorPrice", securityPrice.FloorPrice, ParameterDirection.Input, 18, 6);
             AddDecimalParameter(command, "@secPriceCeillingPrice", securityPrice.CeilingPrice, ParameterDirection.Input, 18, 6);
@@ -490,9 +493,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -506,11 +509,12 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertSecurityStatus(FIXInMessage message, SecurityStatusMessage securityStatus)
         {
             if (securityStatus == null) throw new ArgumentNullException(nameof(securityStatus));
 
-            var command = CreateCommandForProc("dbo.fxodl_securitystatus_Create");
+            var command = CreateCommandForProc(Global.Evaluators.SecurityPrices_Create); // "dbo.fxodl_securityprices_Create"
             AddParameter(command, "@secStatMarketID", securityStatus.MarketID, SqlDbType.Char, ParameterDirection.Input, 1);
             AddParameter(command, "@secStatSecurityStatus", securityStatus.SecurityStatus, SqlDbType.Char, ParameterDirection.Input, 1);
             AddParameter(command, "@secStatPhaseID", securityStatus.PhaseID, SqlDbType.Char, ParameterDirection.Input, 1);
@@ -524,9 +528,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -540,11 +544,12 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
+        
         public void InsertTrade(FIXInMessage message, NewTradeConfirmationMessage newTradeConfirmation)
         {
             if (newTradeConfirmation == null) throw new ArgumentNullException(nameof(newTradeConfirmation));
 
-            var command = CreateCommandForProc("dbo.fxodl_trades_Create");
+            var command = CreateCommandForProc(Global.Evaluators.Trades_Create); // "dbo.fxodl_trades_Create"
             AddParameter(command, "@p02", "", SqlDbType.Char, ParameterDirection.Input, 4);
             AddParameter(command, "@p04", newTradeConfirmation.MemberID, SqlDbType.Char, ParameterDirection.Input, 4);
             AddParameter(command, "@p05", newTradeConfirmation.TraderID, SqlDbType.Char, ParameterDirection.Input, 5);
@@ -615,9 +620,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
             try
@@ -635,7 +640,7 @@ namespace PatioFIX.Common.DAL
         {
             if (tradeCaptureReport == null) throw new ArgumentNullException(nameof(tradeCaptureReport));
 
-            var command = CreateCommandForProc("dbo.fxodl_tradecapturereports_Create2");
+            var command = CreateCommandForProc(Global.Evaluators.TradesCaptureReports_Create); // "dbo.fxodl_tradecapturereports_Create2"
 
             AddParameter(command, "@TrdMatchID", tradeCaptureReport.TrdMatchID, SqlDbType.Char, ParameterDirection.Input, 6);//TradeNumber
             AddParameter(command, "@TradeReportID", tradeCaptureReport.TradeReportID, SqlDbType.Char, ParameterDirection.Input, 16);//ClientOrderID
@@ -691,9 +696,9 @@ namespace PatioFIX.Common.DAL
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -710,20 +715,19 @@ namespace PatioFIX.Common.DAL
 
         public void UpdateOrderProcessAndStatusCode(FIXInMessage message, int orderId, OrderProcessCodeEnum processCode, char ordStatus, string rejReasCode = default)
         {
-            var command = CreateCommandForProc("dbo.fxodl_Orders_UpdateStatuses");
+            var command = CreateCommandForProc(Global.Evaluators.Orders_UpdateStatus); // "dbo.fxodl_Orders_UpdateStatuses"
+
             AddParameter(command, "@orderID", orderId, SqlDbType.Int);
             AddParameter(command, "@processCode", (int)processCode, SqlDbType.Int);
-
             AddParameter(command, "@statusCode", ordStatus, SqlDbType.Char);
-
 
             AddParameter(command, "@rejectReasonCode", rejReasCode, SqlDbType.Char);
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -740,16 +744,17 @@ namespace PatioFIX.Common.DAL
 
         public void UpdateOrderProcessCode(FIXInMessage message, int orderId, OrderProcessCodeEnum processCode)
         {
-            var command = CreateCommandForProc("dbo.fxodl_Orders_UpdateProcessCode");
+            var command = CreateCommandForProc(Global.Evaluators.Orders_UpdateProcessCode); // "dbo.fxodl_Orders_UpdateProcessCode"
+
             AddParameter(command, "@orderID", orderId, SqlDbType.Int);
             AddParameter(command, "@processCode", (int)processCode, SqlDbType.Int);
 
             /*Common Parameters:*/
             AddParameter(command, "@appMsgId", message.AppMsgID, SqlDbType.Int);
             AddParameter(command, "@msgSeqNum", message.MsgSeqNum, SqlDbType.Int);
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@msgSource", (byte)message.Source, SqlDbType.TinyInt);
-            AddParameter(command, "@DayOfYear", Globals.DayOfYear, SqlDbType.Int);
+            AddParameter(command, "@DayOfYear", Global.DayOfYear, SqlDbType.Int);
             AddParameter(command, "@ATHEXServer", (byte)message.ATHEXServer, SqlDbType.TinyInt);
 
 
@@ -763,7 +768,6 @@ namespace PatioFIX.Common.DAL
                 command.Connection.Close();
             }
         }
-
 
         public PtCancel GetCancelById(int cancelID)
         {
@@ -790,6 +794,7 @@ namespace PatioFIX.Common.DAL
             }
             return _cancel;
         }
+        
         public PtChange GetChangeById(int changeID)
         {
             var cmd = CreateCommandForSql("select [ChngID],[ChngOrderNumber],[ChngOrderEntryDate],[ChngChangedPrice],[ChngChangedVolume],[ChngChangedCSDAccountID],[ChngChangedOriginalPriceType],[ChngChangedLife],[ChngChangedExpirationDate],[ChngChangedMemberOrderNumber],[ChngProcessCode],[WorkingDate],[ChngVenueId],[ChngSecuritySymbol],[ChngSecurityIDSource],[ChngMemberID],[ChngTraderID] from changes where ChngID = @chngID");
@@ -869,13 +874,11 @@ namespace PatioFIX.Common.DAL
         }
         #endregion
 
-
-
         public int GetOutboundMessages(OutboundMessages vehicle, short venue_switch, int maxRows)
         {
             vehicle.Clear();
 
-            var cmd = CreateCommandForProc("dbo.fxodl_broker_GetOutboundMessages");
+             var cmd = CreateCommandForProc(Global.StoredProcedures.GetOutboundMessages); //"dbo.fxodl_broker_GetOutboundMessages"
             AddParameter(cmd, "@venue_switch", venue_switch, SqlDbType.SmallInt);
             AddParameter(cmd, "@top", maxRows, SqlDbType.Int);
 
@@ -945,7 +948,7 @@ namespace PatioFIX.Common.DAL
         #region MarkOutBoundMessageAsSent
         public void SetOrderAsSent(decimal orderId, int processCode)
         {
-            var cmd = CreateCommandForProc("dbo.fxodl_broker_SetOrderAsSent");
+            var cmd = CreateCommandForProc(Global.StoredProcedures.SetOrderAsSent); // dbo.fxodl_broker_SetOrderAsSent
             AddParameter(cmd, "@OrderID", orderId, SqlDbType.Decimal);
             AddParameter(cmd, "@OrderProcessCode", processCode, SqlDbType.Int);
 
@@ -959,9 +962,10 @@ namespace PatioFIX.Common.DAL
                 cmd.Connection.Close();
             }
         }
+
         public void SetChangeAsSent(decimal orderId, int orderprocesscode, decimal chngID, int chngProcessCode)
         {
-            var cmd = CreateCommandForProc("dbo.fxodl_broker_SetChangeAsSent");
+            var cmd = CreateCommandForProc(Global.StoredProcedures.SetChangeAsSent); //"dbo.fxodl_broker_SetChangeAsSent"
             AddParameter(cmd, "@OrderID", orderId, SqlDbType.Decimal);
             AddParameter(cmd, "@OrderProcessCode", orderprocesscode, SqlDbType.Int);
             AddParameter(cmd, "@ChngID", chngID, SqlDbType.Decimal);
@@ -977,9 +981,10 @@ namespace PatioFIX.Common.DAL
                 cmd.Connection.Close();
             }
         }
+        
         public void SetCancelAsSent(decimal cancelID, int processCode)
         {
-            var cmd = CreateCommandForProc("dbo.fxodl_broker_SetCancelAsSent");
+            var cmd = CreateCommandForProc(Global.StoredProcedures.SetCancelAsSent); //"dbo.fxodl_broker_SetCancelAsSent"
             AddParameter(cmd, "@CancelID", cancelID, SqlDbType.Decimal);
             AddParameter(cmd, "@CancelProcessCode", processCode, SqlDbType.Int);
 
@@ -1018,6 +1023,7 @@ namespace PatioFIX.Common.DAL
                 cmd.Connection.Close();
             }
         }
+       
         public bool UnSetChangeAsSent(decimal orderId, decimal chngID)
         {
             var cmd = CreateCommandForSql("UPDATE dbo.[Changes] SET ChngProcessCode= -1  WHERE ChngID = @ChngID and ChngProcessCode = -5");
@@ -1035,6 +1041,7 @@ namespace PatioFIX.Common.DAL
                 cmd.Connection.Close();
             }
         }
+        
         public bool UnSetCancelAsSent(decimal cancelID)
         {
             var cmd = CreateCommandForSql("UPDATE dbo.Cancels SET CancelProcessCode= -1 WHERE CancelID = @CancelID and CancelProcessCode = -5");
@@ -1055,12 +1062,12 @@ namespace PatioFIX.Common.DAL
         #endregion
 
 
-        public ClientStatus Clients_GetStatus(Guid appId, ODLMesssageSource source, int dayOfYear)
+        public ClientStatus Clients_GetStatus(string appId, ODLMesssageSource source, int dayOfYear)
         {
             var status = new ClientStatus();
 
             var command = CreateCommandForProc("dbo.fxodl_FIXClients_GetStatus");
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@odlMesssageSource", (byte)source, SqlDbType.TinyInt);
             AddParameter(command, "@DayOfYear", dayOfYear, SqlDbType.SmallInt);
 
@@ -1075,7 +1082,7 @@ namespace PatioFIX.Common.DAL
                     status.ETS_LastMsgSeqNum = reader.GetInt32(1);
                     status.ORA_LastAppMsgId = reader.GetInt32(2);
                     status.ORA_LastMsgSeqNum = reader.GetInt32(3);
-                    status.AppID = reader.GetGuid(4);
+                    status.AppID = reader.GetString(4);
                     status.DayOfYear = reader.GetInt16(5);
                     if (!reader.IsDBNull(6)) status.ATHEXSessionID = reader.GetString(6);
                     status.CreateDT = reader.GetDateTime(7);
@@ -1083,10 +1090,11 @@ namespace PatioFIX.Common.DAL
             }
             return status;
         }
-        public void Clients_Housekeeping(Guid appId, ODLMesssageSource source, int dayOfYear)
+        
+        public void Clients_Housekeeping(string appId, ODLMesssageSource source, int dayOfYear)
         {
             var command = CreateCommandForProc("dbo.fxodl_FIXClients_Housekeeping");
-            AddParameter(command, "@AppID", Globals.AppID, SqlDbType.UniqueIdentifier);
+            AddParameter(command, "@AppID", Global.AppID, SqlDbType.VarChar);
             AddParameter(command, "@odlMesssageSource", (byte)source, SqlDbType.TinyInt);
             AddParameter(command, "@DayOfYear", dayOfYear, SqlDbType.SmallInt);
 
