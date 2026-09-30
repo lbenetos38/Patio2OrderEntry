@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using PatioFIX.Common.Configuration.Sections;
 using PatioFIX.Common.FixSupport;
 using System;
 using System.Diagnostics;
@@ -25,6 +26,7 @@ namespace PatioFIX.Common.Configuration
 
         bool RequiredDispatcher { get; }
 
+        public string ServiceName { get; }   
 
         /// <summary>
         /// 
@@ -102,8 +104,11 @@ namespace PatioFIX.Common.Configuration
         /// 
         /// </summary>
         public DispatcherSection Dispatcher { get; }
-
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        public StoredProceduresSection StoredProcedures { get; }
 
         /// <summary>
         /// 
@@ -133,10 +138,16 @@ namespace PatioFIX.Common.Configuration
                 throw new ArgumentNullException($"There is no {sectionName} section in {settingsFilePath}");
             }
 
+            var value = root["ServiceName"];
 
+            //Service Name
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException($"Service Name '{value}' is required");
+            else
+                this.ServiceName = value;
 
             //TraceLevel
-            var value = root["TraceLevel"];
+            value = root["TraceLevel"];
             if (string.IsNullOrWhiteSpace(value))
             {
                 this.LogLevel = TraceLevel.Info;
@@ -193,17 +204,18 @@ namespace PatioFIX.Common.Configuration
                 this.RetryRetryableException = Convert.ToBoolean(value);
             }
 
-
             value = root["EnableMonitoring"];
             if (!string.IsNullOrWhiteSpace(value))
             {
                 this.EnableMonitoring = Convert.ToBoolean(value);
             }
+
             value = root["AggregatorServerIP"];
             if (!string.IsNullOrWhiteSpace(value))
             {
                 this.AggregatorServerIP = value;
             }
+
             value = root["AggregatorServerPort"];
             if (!string.IsNullOrWhiteSpace(value))
             {
@@ -215,13 +227,12 @@ namespace PatioFIX.Common.Configuration
             {
                 this.MonitorSecurityStatus = Convert.ToBoolean(value);
             }
+
             value = root["MonitorMarketStatus"];
             if (!string.IsNullOrWhiteSpace(value))
             {
                 this.MonitorMarketStatus = Convert.ToBoolean(value);
             }
-
-
 
             try
             {
@@ -250,7 +261,6 @@ namespace PatioFIX.Common.Configuration
                 throw new Exception("An error occured while creating a FixClientSection.", ex);
             }
 
-
             try
             {
                 this.TCPConnection = new TCPConnectionSection(root, required: false);
@@ -278,8 +288,6 @@ namespace PatioFIX.Common.Configuration
                 throw new Exception("An error occured while creating a EmulationSection.", ex);
             }
 
-
-
             try
             {
                 this.Dispatcher = new DispatcherSection(root, required: requiredDispatcher);
@@ -298,6 +306,14 @@ namespace PatioFIX.Common.Configuration
                 throw new Exception("An error occured while creating a SimpleSchedulerSection.", ex);
             }
 
+            try
+            {
+                this.StoredProcedures = new StoredProceduresSection(root, required: false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occured while creating a StoredProceduresSection.", ex);
+            }
         }
 
 
@@ -309,7 +325,7 @@ namespace PatioFIX.Common.Configuration
         {
             var conf = new FixConfiguration();
 
-            conf.ClientRole = Globals.ClientRole;
+            conf.ClientRole = Global.ClientRole;
             conf.ServerIP = this.FixServer.ServerIP;
             conf.Port1 = this.FixServer.Port1;
             conf.Port2 = this.FixServer.Port2;

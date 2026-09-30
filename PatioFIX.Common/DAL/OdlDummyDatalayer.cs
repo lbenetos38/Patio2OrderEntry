@@ -1,8 +1,6 @@
 ﻿using PatioFIX.Common.BLL.Messages;
 using System;
 
-
-
 namespace PatioFIX.Common.DAL
 {
     /// <summary>
@@ -12,12 +10,10 @@ namespace PatioFIX.Common.DAL
     {
         readonly Logger theLogger = null;
 
-        public OdlDummyDatalayer() : base(Globals.PatioOMS.ODLConnStr)
+        public OdlDummyDatalayer() : base(Global.PatioOMS.ODLConnStr)
         {
             theLogger = new Logger("OdlDataLayer");
         }
-
-
 
         public void InsertIgnored(FIXInMessage message, IgnoredMessage ignoredMessage)
         {
@@ -46,12 +42,10 @@ namespace PatioFIX.Common.DAL
         {
 
         }
-
         public void InsertOrderMarketStatus(FIXInMessage message, MarketStatusMessage marketStatus)
         {
 
         }
-
         public void InsertReject(FIXInMessage message, string memberOrderID, RejectMessage rejection, string sourceMsgType, string orderNote, PtOrderGenerator generator)
         {
 
@@ -60,8 +54,6 @@ namespace PatioFIX.Common.DAL
         {
 
         }
-
-
         public void InsertSecurityPrice(FIXInMessage message, SecurityPricesMessage securityPrice)
         {
 
@@ -79,18 +71,14 @@ namespace PatioFIX.Common.DAL
 
         }
 
-
-
         public void UpdateOrderProcessAndStatusCode(FIXInMessage message, int orderId, OrderProcessCodeEnum processCode, char ordStatus, string rejReasCode = default)
         {
 
         }
-
         public void UpdateOrderProcessCode(FIXInMessage message, int orderId, OrderProcessCodeEnum processCode)
         {
 
         }
-
 
         public PtCancel GetCancelById(int cancelID)
         {
@@ -100,24 +88,19 @@ namespace PatioFIX.Common.DAL
         {
             return null;
         }
-
         public PtOrder GetOrderById(int orderID)
         {
             return null;
         }
-
         public PtOrder GetOrderByExchangeId(string exchangeID)
         {
             return null;
         }
 
-
-
         public int GetOutboundMessages(OutboundMessages vehicle, short venue_switch, int maxRows)
         {
             return 0;
         }
-
 
         public void SetOrderAsSent(decimal orderId, int processCode)
         {
@@ -131,7 +114,6 @@ namespace PatioFIX.Common.DAL
         {
 
         }
-
 
         /// <summary>
         /// Θετει την συγκεκριμενη Orders απο OrderProcessCodeEnum.Se_katastash_apostolhs (1) σε OrderProcessCodeEnum.Entolh_etoimh_gia_apostolh (-1)
@@ -151,15 +133,13 @@ namespace PatioFIX.Common.DAL
             return true;
         }
 
-
-
-        public ClientStatus Clients_GetStatus(Guid appId, ODLMesssageSource source, int dayOfYear)
+        public ClientStatus Clients_GetStatus(string appId, ODLMesssageSource source, int dayOfYear)
         {
             var status = new ClientStatus();
 
             return status;
         }
-        public void Clients_Housekeeping(Guid appId, ODLMesssageSource source, int dayOfYear)
+        public void Clients_Housekeeping(string appId, ODLMesssageSource source, int dayOfYear)
         {
 
         }
