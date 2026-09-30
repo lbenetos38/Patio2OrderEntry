@@ -58,11 +58,6 @@ namespace PatioFIX.Common.FixSupport
             Length += Buffer.WriteLong(Length, seqNum, negative: false);
             Buffer[Length++] = SOH;
 
-            // Write sendingTime
-            Length += Buffer.WriteString(Length, "52=");
-            Length += Buffer.WriteDateTime(Length, sendingTime);
-            Buffer[Length++] = SOH;
-
             // Write sender
             Length += Buffer.WriteString(Length, "49=");
             Length += Buffer.WriteString(Length, sender);
@@ -71,6 +66,11 @@ namespace PatioFIX.Common.FixSupport
             // Write target
             Length += Buffer.WriteString(Length, "56=");
             Length += Buffer.WriteString(Length, target);
+            Buffer[Length++] = SOH;
+
+            // Write sendingTime
+            Length += Buffer.WriteString(Length, "52=");
+            Length += Buffer.WriteDateTime(Length, sendingTime);
             Buffer[Length++] = SOH;
 
             // Copy body
