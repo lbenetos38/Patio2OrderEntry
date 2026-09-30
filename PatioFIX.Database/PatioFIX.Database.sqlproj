@@ -73,4 +73,43 @@
   <ItemGroup>
     <None Include="fxodl_ignored_Create.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_confirmcancel_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_confirmchange_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_confirmorder_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_confirmorderedit_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_creditlimitinformation_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_exchangenotes_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_ordermarketstatus_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_reject_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_securityprices_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_trades_Create.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_tradecapturereports_Create2.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_Orders_UpdateStatuses.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fxodl_Orders_UpdateProcessCode.sql" />
+  </ItemGroup>
 </Project>
