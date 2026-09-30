@@ -53,15 +53,15 @@ namespace PatioFIX.Common.BLL.Messages
 
             if (message.Contains(Tags.TransactTime))
             {
-                Timestamp = Globals.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.TransactTime].AsODLTimestampLocal : message[Tags.TransactTime].AsODLTimestamp;
+                Timestamp = Global.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.TransactTime].AsODLTimestampLocal : message[Tags.TransactTime].AsODLTimestamp;
 			}
             else if (message.Contains(Tags.OrigSendingTime))
             {
-                Timestamp = Globals.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.OrigSendingTime].AsODLTimestampLocal : message[Tags.OrigSendingTime].AsODLTimestamp;
+                Timestamp = Global.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.OrigSendingTime].AsODLTimestampLocal : message[Tags.OrigSendingTime].AsODLTimestamp;
 			}
             else
             {
-                Timestamp = Globals.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.SendingTime].AsODLTimestampLocal : message[Tags.SendingTime].AsODLTimestamp;
+                Timestamp = Global.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.SendingTime].AsODLTimestampLocal : message[Tags.SendingTime].AsODLTimestamp;
 			}
 
             return this;

@@ -80,9 +80,9 @@ namespace PatioFIX.Common.BLL.Messages
 
 
             if (message.Contains(Tags.TransactTime))
-				Timestamp = Globals.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.TransactTime].AsODLTimestampLocal : message[Tags.TransactTime].AsODLTimestamp;
+				Timestamp = Global.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.TransactTime].AsODLTimestampLocal : message[Tags.TransactTime].AsODLTimestamp;
             else
-				Timestamp = Globals.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.SendingTime].AsODLTimestampLocal : message[Tags.SendingTime].AsODLTimestamp;
+				Timestamp = Global.PatioOMS.ConvertUTCTimeToLocal ? message[Tags.SendingTime].AsODLTimestampLocal : message[Tags.SendingTime].AsODLTimestamp;
 
 
             return this;

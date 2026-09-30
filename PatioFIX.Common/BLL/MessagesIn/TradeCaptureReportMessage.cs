@@ -15,7 +15,7 @@ namespace PatioFIX.Common.BLL.Messages
         /// </summary>
         internal class TradeSide
         {
-            PartiesContainer m_parties = new PartiesContainer("TradeCaptureReportMessage", Globals.FixClient.ValidateDuplicatePartyRole, Globals.FixClient.ValidateRepeatingGroupEntryCount);
+            PartiesContainer m_parties = new PartiesContainer("TradeCaptureReportMessage", Global.FixClient.ValidateDuplicatePartyRole, Global.FixClient.ValidateRepeatingGroupEntryCount);
 
 
             public void EmptyValues()

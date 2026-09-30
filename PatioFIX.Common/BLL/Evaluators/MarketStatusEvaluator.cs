@@ -71,7 +71,7 @@ namespace PatioFIX.Common.BLL.Evaluators
                  *  Τα πεδια MarketID & BoardID προσδιορίζουν μοναδικά ενα IMarketStatus
                  */
 
-                if (Globals.ClientRole == ODLMesssageSource.Administrator && Globals.Configuration.MonitorSecurityStatus)
+                if (Global.ClientRole == ODLMesssageSource.Administrator && Global.Configuration.MonitorSecurityStatus)
                 {
                     /*
                      * Μονο απο τον Administrator στελνουμε MarketStatusMessages

@@ -54,8 +54,8 @@ namespace PatioFix.Broker
 
         private void DebugForm_Load(object sender, EventArgs e)
         {
-            Globals.IsGuiPresent = true;
-            Globals.GuiMonitorInstance = this;
+            Global.IsGuiPresent = true;
+            Global.GuiMonitorInstance = this;
             this.Text = "PatioFIXBroker - disconnected!";
 
             this.chkVerbose.Checked = true;
@@ -72,10 +72,10 @@ namespace PatioFix.Broker
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Globals.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, Global.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (ex.InnerException != null)
                 {
-                    MessageBox.Show(ex.InnerException.Message, Globals.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(ex.InnerException.Message, Global.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
@@ -93,10 +93,10 @@ namespace PatioFix.Broker
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Globals.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, Global.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (ex.InnerException != null)
                 {
-                    MessageBox.Show(ex.InnerException.Message, Globals.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(ex.InnerException.Message, Global.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 this.btnStart.Enabled = true;
                 this.btnStop.Enabled = false;
@@ -114,10 +114,10 @@ namespace PatioFix.Broker
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, Globals.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, Global.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (ex.InnerException != null)
                 {
-                    MessageBox.Show(ex.InnerException.Message, Globals.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(ex.InnerException.Message, Global.ServiceName, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 this.btnStart.Enabled = false;
                 this.btnStop.Enabled = true;

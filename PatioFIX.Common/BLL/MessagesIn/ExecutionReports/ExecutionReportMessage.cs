@@ -10,7 +10,7 @@ namespace PatioFIX.Common.BLL.Messages
     /// </summary>
     public class ExecutionReportMessage
     {
-        PartiesContainer m_parties = new PartiesContainer("ExecutionReportMessage", Globals.FixClient.ValidateDuplicatePartyRole, Globals.FixClient.ValidateRepeatingGroupEntryCount);
+        PartiesContainer m_parties = new PartiesContainer("ExecutionReportMessage", Global.FixClient.ValidateDuplicatePartyRole, Global.FixClient.ValidateRepeatingGroupEntryCount);
 
         /// <summary>
         /// 
