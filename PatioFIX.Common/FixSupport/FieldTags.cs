@@ -3,7 +3,7 @@
     /// <summary>
     /// FIX Field Tag Values
     /// </summary>/
-    public static class Tags
+    public static partial class Tags
     {
         public const int Account = 1;
         public const int AdvId = 2;
