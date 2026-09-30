@@ -13,11 +13,11 @@ namespace ConsoleApp1
         public FixMessageTest()
         {
             var configuration = new PatioFIXClientConfiguration("PatioFIXAdmin");
-            Globals.ServiceName = "PatioFIXAdmin";
-            Globals.ClientRole = ODLMesssageSource.Administrator;
-            Globals.InitializationDT = DateTime.Now;
-            Globals.SetDayOfYear();
-            Globals.SetConfiguration(configuration);
+            Global.ServiceName = "PatioFIXAdmin";
+            Global.ClientRole = ODLMesssageSource.Administrator;
+            Global.InitializationDT = DateTime.Now;
+            Global.SetDayOfYear();
+            Global.SetConfiguration(configuration);
 
             theLogger = new Logger("ConsoleApp2");
         }
