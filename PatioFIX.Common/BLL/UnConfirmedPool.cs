@@ -30,8 +30,8 @@ namespace PatioFIX.Common
         {
             theLogger = new Logger("UnConfirmedPool");
 
-            this.MaxUnconfirmedMessage = Globals.Dispatcher.MaxUnconfirmedMessage;
-            this.AbandonedInterval = Globals.Dispatcher.AbandonedInterval;
+            this.MaxUnconfirmedMessage = Global.Dispatcher.MaxUnconfirmedMessage;
+            this.AbandonedInterval = Global.Dispatcher.AbandonedInterval;
 
 
             if (Thread.CurrentThread.IsThreadPoolThread)
@@ -71,7 +71,7 @@ namespace PatioFIX.Common
         {
             lock (_lockObject)
             {
-                if (Globals.Dispatcher.LogUnConfirmedPool)
+                if (Global.Dispatcher.LogUnConfirmedPool)
                 {
                     theLogger.Verbose(string.Format("Add, Type={0}, OrderID={1}", message.ODLMessageType, message.OrderID));
                 }
@@ -105,7 +105,7 @@ namespace PatioFIX.Common
 
                 MetricsProxy.Instance.UnConfirmedPoolMessages(m_messages.Count);
 
-                if (Globals.Dispatcher.LogUnConfirmedPoolMessages)
+                if (Global.Dispatcher.LogUnConfirmedPoolMessages)
                 {
                     _logMessages();
                 }
@@ -124,7 +124,7 @@ namespace PatioFIX.Common
         {
             lock (_lockObject)
             {
-                if (Globals.Dispatcher.LogUnConfirmedPool)
+                if (Global.Dispatcher.LogUnConfirmedPool)
                 {
                     theLogger.Verbose(string.Format("RemoveInternal, Type={0}, OrderID={1}", message.ODLMessageType, message.OrderID));
                 }
@@ -138,7 +138,7 @@ namespace PatioFIX.Common
                         m_messages.RemoveAt(idx);
 
                         MetricsProxy.Instance.UnConfirmedPoolMessages(m_messages.Count);
-                        if (Globals.Dispatcher.LogUnConfirmedPoolMessages)
+                        if (Global.Dispatcher.LogUnConfirmedPoolMessages)
                         {
                             _logMessages();
                         }
@@ -163,7 +163,7 @@ namespace PatioFIX.Common
                 Monitor.Enter(_lockObject, ref __lockWasTaken);
                 if (__lockWasTaken)
                 {
-                    if (Globals.Dispatcher.LogUnConfirmedPool)
+                    if (Global.Dispatcher.LogUnConfirmedPool)
                     {
                         theLogger.Verbose(string.Format("Remove, Type={0}, RowID={1}", messageType, rowID));
                     }
@@ -177,7 +177,7 @@ namespace PatioFIX.Common
                             m_messages.RemoveAt(idx);
 
                             MetricsProxy.Instance.UnConfirmedPoolMessages(m_messages.Count);
-                            if (Globals.Dispatcher.LogUnConfirmedPoolMessages)
+                            if (Global.Dispatcher.LogUnConfirmedPoolMessages)
                             {
                                 _logMessages();
                             }

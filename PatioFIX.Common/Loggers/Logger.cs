@@ -65,11 +65,11 @@ namespace PatioFIX.Common
         {
             m_ownerName = ownerName;
 
-            if (Globals.IsGuiPresent)
+            if (Global.IsGuiPresent)
             {
-                m_monitor = Globals.GuiMonitorInstance;
+                m_monitor = Global.GuiMonitorInstance;
             }
-            m_traceLevel = Globals.LogLevel;
+            m_traceLevel = Global.LogLevel;
 
             _nlogLogger = LogManager.GetLogger(ownerName);
         }
@@ -86,7 +86,7 @@ namespace PatioFIX.Common
             if (m_monitor != null)
                 m_monitor.ShowException(TraceLevel.Error, ex, m_ownerName);
 
-            string fullmsg = Globals.UnWindException(ex);
+            string fullmsg = Global.UnWindException(ex);
 
             _nlogLogger.Fatal(ex, fullmsg);
         }
@@ -111,7 +111,7 @@ namespace PatioFIX.Common
 
             //if (m_traceLevel >= TraceLevel.Error)
             //{
-            string fullmsg = Globals.UnWindException(ex);
+            string fullmsg = Global.UnWindException(ex);
 
             _nlogLogger.Error(ex, fullmsg);
             //}
@@ -138,7 +138,7 @@ namespace PatioFIX.Common
 
             //if (m_traceLevel >= TraceLevel.Warning)
             //{
-            string fullmsg = Globals.UnWindException(ex);
+            string fullmsg = Global.UnWindException(ex);
 
             _nlogLogger.Warn(ex, fullmsg);
             //}

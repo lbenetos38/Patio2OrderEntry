@@ -63,10 +63,10 @@ namespace PatioFIX.Common
         /// </summary>
         MetricsProxy()
         {
-            if (Globals.Configuration.EnableMonitoring)
+            if (Global.Configuration.EnableMonitoring)
             {
-                var serverIP = Globals.Configuration.AggregatorServerIP;
-                var port = Globals.Configuration.AggregatorServerPort;
+                var serverIP = Global.Configuration.AggregatorServerIP;
+                var port = Global.Configuration.AggregatorServerPort;
 
                 /*
 				* Διαβαζουμε την serverIP και φτιαχνουμε ενα πληρες IPEndPoint που δειχνει που
@@ -147,7 +147,7 @@ namespace PatioFIX.Common
                             buffer[2] = 0x50;                   //P
                             buffer[3] = 0x40;                   //@
                             buffer[4] = (byte)MetricKeysEnumeration.Hello;
-                            buffer[5] = (Globals.ClientRole == ODLMesssageSource.Administrator) ? (byte)0 : (byte)1;
+                            buffer[5] = (Global.ClientRole == ODLMesssageSource.Administrator) ? (byte)0 : (byte)1;
                             buffer[6] = (byte)(m_localCopyOfState.SentLogon == true ? 1 : 0);
                             buffer[7] = (byte)(m_localCopyOfState.ReceivedLogon == true ? 1 : 0);
                             buffer[8] = (byte)(m_localCopyOfState.SentLogout == true ? 1 : 0);
@@ -489,7 +489,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.TCPIncomingMessage, numOfBytes);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.TCPIncomingMessage, numOfBytes);
                 }
             }
         }
@@ -499,7 +499,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.TCPOutcomingMessage, numOfBytes);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.TCPOutcomingMessage, numOfBytes);
                 }
             }
         }
@@ -509,7 +509,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.TCPWarning);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.TCPWarning);
                 }
             }
         }
@@ -519,7 +519,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.TCPError);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.TCPError);
                 }
             }
         }
@@ -530,7 +530,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.TCPConnect);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.TCPConnect);
                 }
             }
         }
@@ -541,7 +541,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.TCPDisconnect);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.TCPDisconnect);
                 }
             }
         }
@@ -555,7 +555,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientNewInstance);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientNewInstance);
                 }
             }
         }
@@ -566,7 +566,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientStarted, value ? 1 : 0);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientStarted, value ? 1 : 0);
                 }
             }
         }
@@ -576,7 +576,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientInboundSeqNumTooHigh);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientInboundSeqNumTooHigh);
                 }
             }
         }
@@ -586,7 +586,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientThrowAwayMessage);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientThrowAwayMessage);
                 }
             }
         }
@@ -596,7 +596,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientIgnoredMessage);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientIgnoredMessage);
                 }
             }
         }
@@ -607,7 +607,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientSendResendRequest);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientSendResendRequest);
                 }
             }
         }
@@ -617,7 +617,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientSendRejection);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientSendRejection);
                 }
             }
         }
@@ -630,7 +630,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientState1, m_localCopyOfState);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientState1, m_localCopyOfState);
                 }
             }
         }
@@ -641,7 +641,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientState2, NextOutboundSeqNum, NextInboundSeqNum);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientState2, NextOutboundSeqNum, NextInboundSeqNum);
                 }
             }
         }
@@ -651,7 +651,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientSessionTimerHeartBeat);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientSessionTimerHeartBeat);
                 }
             }
         }
@@ -663,7 +663,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientFailedLogin);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientFailedLogin);
                 }
             }
         }
@@ -673,7 +673,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientWarning);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientWarning);
                 }
             }
         }
@@ -683,7 +683,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientError);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientError);
                 }
             }
         }
@@ -693,7 +693,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.FIXClientReject);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.FIXClientReject);
                 }
             }
         }
@@ -706,7 +706,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.ParsingWarning);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.ParsingWarning);
                 }
             }
         }
@@ -716,7 +716,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.ParsingError);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.ParsingError);
                 }
             }
         }
@@ -727,7 +727,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.RejectionsWarning);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.RejectionsWarning);
                 }
             }
         }
@@ -742,7 +742,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.EvaluationIime, mtype, elapsedTicks);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.EvaluationIime, mtype, elapsedTicks);
                 }
             }
         }
@@ -756,7 +756,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.Receive, mtype);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.Receive, mtype);
                 }
             }
         }
@@ -770,7 +770,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.Send, mtype);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.Send, mtype);
                 }
             }
         }
@@ -787,7 +787,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.Error, source, type);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.Error, source, type);
                 }
             }
         }
@@ -802,7 +802,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.Warning, source, type);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.Warning, source, type);
                 }
             }
         }
@@ -815,7 +815,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.ControllerHeartBeat);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.ControllerHeartBeat);
                 }
             }
         }
@@ -828,7 +828,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.EventsListenerHeartBeat);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.EventsListenerHeartBeat);
                 }
             }
         }
@@ -839,7 +839,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.UnConfirmedPoolMessages, value);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.UnConfirmedPoolMessages, value);
                 }
             }
         }
@@ -852,7 +852,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.MarketStatus, marketStatus);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.MarketStatus, marketStatus);
                 }
             }
         }
@@ -862,7 +862,7 @@ namespace PatioFIX.Common
             {
                 lock (m_lockObj)
                 {
-                    _prepBufferAndSend(Globals.ClientRole, MetricKeysEnumeration.SecurityStatus, securityStatus);
+                    _prepBufferAndSend(Global.ClientRole, MetricKeysEnumeration.SecurityStatus, securityStatus);
                 }
             }
         }

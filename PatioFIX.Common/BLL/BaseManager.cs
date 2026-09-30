@@ -28,7 +28,7 @@ namespace PatioFIX.Common.BLL
             {
                 if (m_odlDataLayer == null)
                 {
-                    if (Globals.PatioOMS.DisableDataLayer == false)
+                    if (Global.PatioOMS.DisableDataLayer == false)
                         m_odlDataLayer = new OdlDataLayer();
                     else
                         m_odlDataLayer = new OdlDummyDatalayer();
