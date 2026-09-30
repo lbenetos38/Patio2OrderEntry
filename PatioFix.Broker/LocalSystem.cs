@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Windows.Forms.Automation;
 
 namespace PatioFix.Broker
 {
@@ -19,7 +20,7 @@ namespace PatioFix.Broker
         {
             get
             {
-                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Patio\\PatioFIXBroker");
+                return Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), $"Patio\\{Global.ServiceName}");
             }
         }
 
@@ -94,8 +95,8 @@ namespace PatioFix.Broker
                     {
                         using (StreamReader sr = new StreamReader(fs))
                         {
-                            string line = sr.ReadToEnd();
-                            Globals.AppID = Guid.Parse(line.Substring(6));
+                            var line = sr.ReadToEnd();
+                            Global.AppID = line;                        
                         }
                     }
                 }
@@ -105,9 +106,8 @@ namespace PatioFix.Broker
                     {
                         using (StreamWriter sw = new StreamWriter(fs))
                         {
-                            Globals.AppID = Guid.NewGuid();
-
-                            sw.WriteLine("AppID={0}", Globals.AppID.ToString("D"));
+                            Global.AppID = $"{Global.ServiceName}-{Guid.NewGuid()}";
+                            sw.WriteLine($"{Global.AppID}");
                         }
                     }
                 }
@@ -115,7 +115,7 @@ namespace PatioFix.Broker
             catch (Exception ex)
             {
                 theLogger.Error(ex);
-                Globals.AppID = Guid.NewGuid();
+                Global.AppID = $"{Global.ServiceName}-{Guid.NewGuid()}";
             }
         }
 
@@ -125,13 +125,13 @@ namespace PatioFix.Broker
             var retryCount = 0;
 
             theLogger.Info("ReadStatusFromDB()");
-            if (Globals.PatioOMS.DisableDataLayer == true)
+            if (Global.PatioOMS.DisableDataLayer == true)
             {
                 /*
                  * Επιστρεφουμε πισω ενα "ψευτικο" ClientStatus:
                  */
                 var _now = DateTime.Now;
-                return new ClientStatus() { CreateDT = _now, AppID = Globals.AppID, DayOfYear = _now.DayOfYear, DisableDataLayer = true };
+                return new ClientStatus() { CreateDT = _now, AppID = Global.AppID, DayOfYear = _now.DayOfYear, DisableDataLayer = true };
             }
 
             var m_odlDataLayer = new OdlDataLayer();
@@ -139,7 +139,7 @@ namespace PatioFix.Broker
             {
                 try
                 {
-                    var status = m_odlDataLayer.Clients_GetStatus(Globals.AppID, Globals.ClientRole, Globals.DayOfYear);
+                    var status = m_odlDataLayer.Clients_GetStatus(Global.AppID, Global.ClientRole, Global.DayOfYear);
 
                     if (retryCount > 0)
                     {
@@ -176,7 +176,7 @@ namespace PatioFix.Broker
             var retryCount = 0;
 
             theLogger.Info("DBHouseKeeping()");
-            if (Globals.PatioOMS.DisableDataLayer == true)
+            if (Global.PatioOMS.DisableDataLayer == true)
             {
                 Do_DBHouseKeeping = false;            //πετυχε, δεν θελουμε να την ξανακαλεσουμε
                 return;
@@ -187,7 +187,7 @@ namespace PatioFix.Broker
             {
                 try
                 {
-                    m_odlDataLayer.Clients_Housekeeping(Globals.AppID, Globals.ClientRole, Globals.DayOfYear);
+                    m_odlDataLayer.Clients_Housekeeping(Global.AppID, Global.ClientRole, Global.DayOfYear);
 
                     if (retryCount > 0)
                     {
@@ -275,23 +275,23 @@ namespace PatioFix.Broker
                     using (EventLog eventLog = new EventLog("Application"))
                     {
                         eventLog.Source = "Application";
-                        var msg = Globals.UnWindException(ex);
-                        eventLog.WriteEntry($"{Globals.ServiceName}\nException in LocalSystem.Initialize()\nPatioFIXClientConfiguration throw an exception\nMessage = {msg}", EventLogEntryType.Error);
+                        var msg = Global.UnWindException(ex);
+                        eventLog.WriteEntry($"{Global.ServiceName}\nException in LocalSystem.Initialize()\nPatioFIXClientConfiguration throw an exception\nMessage = {msg}", EventLogEntryType.Error);
                     }
                     throw;
                 }
 
                 try
                 {
-                    Globals.ServiceName = "PatioFIXBroker";
-                    Globals.ClientRole = ODLMesssageSource.Broker;
-                    Globals.InitializationDT = DateTime.Now;
-                    Globals.SetDayOfYear();
-                    Globals.SetConfiguration(configuration);
+                    Global.ServiceName = configuration.ServiceName;
+                    Global.ClientRole = ODLMesssageSource.Broker;
+                    Global.InitializationDT = DateTime.Now;
+                    Global.SetDayOfYear();
+                    Global.SetConfiguration(configuration);
                     EnsureLocalDirectories();
-                    Globals.Schedule.LoadSchedule(configuration.SimpleScheduler);
+                    Global.Schedule.LoadSchedule(configuration.SimpleScheduler);
 
-                    Logger.ConfigureLogger(Globals.ServiceName, LocalSystem.NLogRootPath);
+                    Logger.ConfigureLogger(Global.ServiceName, LocalSystem.NLogRootPath);
 
                     Do_DBHouseKeeping = true; //αναγκαζουμε τον controller να καλεσει την DataBaseHouseKeeping
                     Do_StartOfDayTasks = true;
@@ -300,7 +300,7 @@ namespace PatioFix.Broker
                     var theLogger = new Logger("LocalSystem");
 
                     EnsureAllLocalParameters(theLogger);
-                    Globals.DumpSettings(theLogger);
+                    Global.DumpSettings(theLogger);
 
 
                     #region load iso-8859-7
@@ -336,8 +336,8 @@ namespace PatioFix.Broker
                     using (EventLog eventLog = new EventLog("Application"))
                     {
                         eventLog.Source = "Application";
-                        var msg = Globals.UnWindException(ex);
-                        eventLog.WriteEntry($"{Globals.ServiceName}\nException in LocalSystem.Initialize()\nMessage = '{msg}'", EventLogEntryType.Error);
+                        var msg = Global.UnWindException(ex);
+                        eventLog.WriteEntry($"{Global.ServiceName}\nException in LocalSystem.Initialize()\nMessage = '{msg}'", EventLogEntryType.Error);
                     }
                     throw;
                 }
@@ -350,15 +350,15 @@ namespace PatioFix.Broker
 
         public static void PeriodicTasks(Logger theLogger)
         {
-            var prvDayOfYear = Globals.DayOfYear;
-            Globals.SetDayOfYear();
+            var prvDayOfYear = Global.DayOfYear;
+            Global.SetDayOfYear();
 
             /*
 			 * Εαν αλλαξε η μέρα πρεπει να εκτελεσω καποια πραγματα:
 			 */
-            if (prvDayOfYear != Globals.DayOfYear)
+            if (prvDayOfYear != Global.DayOfYear)
             {
-                theLogger.Info($"PeriodicTasks (prvDayOfYear:{prvDayOfYear} != Globals.DayOfYear:{Globals.DayOfYear})");
+                theLogger.Info($"PeriodicTasks (prvDayOfYear:{prvDayOfYear} != Globals.DayOfYear:{Global.DayOfYear})");
 
                 /*
 				 * αναγκαζουμε τον controller να καλεσει την DBHouseKeeping

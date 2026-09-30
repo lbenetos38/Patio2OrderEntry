@@ -14,7 +14,7 @@ namespace PatioFIX.Admin
 
             LocalSystem.Initialize();
             theLogger = new Logger("Actuator");
-            this.ServiceName = Globals.ServiceName;
+            this.ServiceName = Global.ServiceName;
         }
 
         protected override void OnStart(string[] args)
@@ -24,19 +24,19 @@ namespace PatioFIX.Admin
                 this.AutoLog = false;
 
                 theLogger.Info($"*****************************************************************************************");
-                theLogger.Info($"***********************************{Globals.ServiceName} New Run*********************************");
-                theLogger.Info($"{Globals.ServiceName} is starting by SCM at {DateTime.Now.ToString()}");
+                theLogger.Info($"***********************************{Global.ServiceName} New Run*********************************");
+                theLogger.Info($"{Global.ServiceName} is starting by SCM at {DateTime.Now.ToString()}");
                 theLogger.Info(string.Empty);
 
                 TheController.Instance.Start();
 
-                theLogger.Info(string.Format("{0} service STARTED!", Globals.ServiceName));
+                theLogger.Info(string.Format("{0} service STARTED!", Global.ServiceName));
             }
             catch (Exception ex)
             {
-                theLogger.Error(string.Format("{0} service DID NOT start! See the logs for more info!", Globals.ServiceName));
+                theLogger.Error(string.Format("{0} service DID NOT start! See the logs for more info!", Global.ServiceName));
                 theLogger.Error(ex);
-                throw new Exception($"{Globals.ServiceName} failed to start. See the logs for more info!", ex);
+                throw new Exception($"{Global.ServiceName} failed to start. See the logs for more info!", ex);
             }
 
         }
@@ -46,7 +46,7 @@ namespace PatioFIX.Admin
             try
             {
                 theLogger.Info($"*************************************************************");
-                theLogger.Info($"{Globals.ServiceName} is stopping by SCM at {DateTime.Now.ToString()}");
+                theLogger.Info($"{Global.ServiceName} is stopping by SCM at {DateTime.Now.ToString()}");
 
 
                 TheController.Instance.Quit();
@@ -63,8 +63,8 @@ namespace PatioFIX.Admin
             }
             catch (Exception ex)
             {
-                theLogger.Warning(string.Format("{0} service DID NOT stop gracefully, error = {1}", Globals.ServiceName, ex.Message));
-                theLogger.Warning(string.Format("{0} service it will be killed by the SCM!", Globals.ServiceName));
+                theLogger.Warning(string.Format("{0} service DID NOT stop gracefully, error = {1}", Global.ServiceName, ex.Message));
+                theLogger.Warning(string.Format("{0} service it will be killed by the SCM!", Global.ServiceName));
             }
         }
     }
