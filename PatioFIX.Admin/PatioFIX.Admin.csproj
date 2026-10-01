@@ -9,7 +9,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
 	<Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
@@ -27,6 +27,7 @@
 	
   <ItemGroup>
     <PackageReference Include="NLog" Version="4.7.15" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
     <PackageReference Include="System.ServiceProcess.ServiceController" Version="6.0.0" />
   </ItemGroup>
 
@@ -55,12 +56,6 @@
 
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\FIX_MESSAGES_IN_00.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\FIX_MESSAGES_IN_02.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

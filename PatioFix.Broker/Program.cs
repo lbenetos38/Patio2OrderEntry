@@ -16,7 +16,7 @@ namespace PatioFix.Broker
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            Globals.ServiceName = "PatioFIXBroker";
+            Global.ServiceName = $"{Global.ServiceName}";
             bool startGui = false;
 
 
@@ -60,7 +60,7 @@ namespace PatioFix.Broker
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                System.Threading.Thread.CurrentThread.Name = $"{Globals.ServiceName} (GUI)";
+                System.Threading.Thread.CurrentThread.Name = $"{Global.ServiceName} (GUI)";
                 Application.Run(new DebugForm());
             }
             else
@@ -80,9 +80,9 @@ namespace PatioFix.Broker
             Console.WriteLine("		-gui	    : service runs as gui application");
             Console.WriteLine("");
             Console.WriteLine(" In order to remove the service, it must be stopped.");
-            Console.WriteLine("	\tUse 'net stop {0}' to stop the service.", Globals.ServiceName);
+            Console.WriteLine("	\tUse 'net stop {0}' to stop the service.", Global.ServiceName);
             Console.WriteLine(" After installation you should start the service.");
-            Console.WriteLine("	\tUse 'net start {0}' to start the service.", Globals.ServiceName);
+            Console.WriteLine("	\tUse 'net start {0}' to start the service.", Global.ServiceName);
             Console.WriteLine("");
             Console.WriteLine(" Also be sure that appsettings.json file, contains the correct settings!");
             ShowFooter();
@@ -93,22 +93,22 @@ namespace PatioFix.Broker
         {
             ShowHeader("Service Remover Invoked");
 
-            if (PatioServiceInstaller.IsServiceInstalled(Globals.ServiceName) == true)
+            if (PatioServiceInstaller.IsServiceInstalled(Global.ServiceName) == true)
             {
                 Console.WriteLine();
 
-                if (PatioServiceInstaller.UninstallService(Globals.ServiceName) == true)
+                if (PatioServiceInstaller.UninstallService(Global.ServiceName) == true)
                 {
-                    Console.WriteLine("\tService '{0}' Removed OK!", Globals.ServiceName);
+                    Console.WriteLine("\tService '{0}' Removed OK!", Global.ServiceName);
                 }
                 else
                 {
-                    Console.WriteLine("\tService '{0}' did not removed!", Globals.ServiceName);
+                    Console.WriteLine("\tService '{0}' did not removed!", Global.ServiceName);
                 }
             }
             else
             {
-                Console.WriteLine("\tThe service '{0}' is not installed!", Globals.ServiceName);
+                Console.WriteLine("\tThe service '{0}' is not installed!", Global.ServiceName);
             }
             ShowFooter();
         }
@@ -116,7 +116,7 @@ namespace PatioFix.Broker
         {
             ShowHeader("Service Installer Invoked");
 
-            if (PatioServiceInstaller.IsServiceInstalled(Globals.ServiceName) == false)
+            if (PatioServiceInstaller.IsServiceInstalled(Global.ServiceName) == false)
             {
                 string fileImagePath = AppDomain.CurrentDomain.BaseDirectory + System.AppDomain.CurrentDomain.FriendlyName;
 
@@ -126,14 +126,14 @@ namespace PatioFix.Broker
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("\tService Name = '{0}'", Globals.ServiceName);
+                Console.WriteLine("\tService Name = '{0}'", Global.ServiceName);
                 Console.WriteLine("\tService Path = '{0}'", fileImagePath);
 
-                PatioServiceInstaller.InstallService(Globals.ServiceName, Globals.ServiceName, fileImagePath);
+                PatioServiceInstaller.InstallService(Global.ServiceName, Global.ServiceName, fileImagePath);
             }
             else
             {
-                Console.WriteLine("\tThe service '{0}' is already installed!", Globals.ServiceName);
+                Console.WriteLine("\tThe service '{0}' is already installed!", Global.ServiceName);
             }
 
             ShowFooter();
@@ -142,7 +142,7 @@ namespace PatioFix.Broker
         static void ShowHeader(string message)
         {
             Console.WriteLine();
-            Console.WriteLine($" {Globals.ServiceName} Copyright© 2020-2026 Eurobank Equities S.A.");
+            Console.WriteLine($" {Global.ServiceName} Copyright© 2020-2026 Eurobank Equities S.A.");
             if (!string.IsNullOrWhiteSpace(message))
                 Console.WriteLine(" {0}...", message);
         }

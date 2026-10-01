@@ -254,7 +254,7 @@ namespace PatioFIX.Admin
 
                 try
                 {
-                    configuration = new PatioFIXClientConfiguration("PatioFIXAdmin");
+                    configuration = new PatioFIXClientConfiguration("FIXAdmin");
                 }
                 catch (Exception ex)
                 {

@@ -268,7 +268,7 @@ namespace PatioFix.Broker
 
                 try
                 {
-                    configuration = new PatioFIXClientConfiguration("PatioFIXBroker", requiredDispatcher: true);
+                    configuration = new PatioFIXClientConfiguration("FIXBroker", requiredDispatcher: true);
                 }
                 catch (Exception ex)
                 {

@@ -57,7 +57,7 @@ namespace PatioFIX.Admin
         {
             Global.IsGuiPresent = true;
             Global.GuiMonitorInstance = this;
-            this.Text = "PatioFIXAdmin - disconnected!";
+            this.Text = $"{Global.ServiceName}";
 
             this.chkVerbose.Checked = true;
             this.chkInfo.Checked = true;

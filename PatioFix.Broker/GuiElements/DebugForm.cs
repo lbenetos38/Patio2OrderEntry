@@ -56,7 +56,7 @@ namespace PatioFix.Broker
         {
             Global.IsGuiPresent = true;
             Global.GuiMonitorInstance = this;
-            this.Text = "PatioFIXBroker - disconnected!";
+            this.Text = $"{Global.ServiceName}";
 
             this.chkVerbose.Checked = true;
             this.chkInfo.Checked = true;
